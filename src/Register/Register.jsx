@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
+import axios from 'axios';
 
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -114,9 +115,11 @@ const Register = () => {
             status: 'active', // default status
         };
 
+       axios.post('http://localhost:3000/blood',registrationData)
+       .then(res=>console.log(res.data))
+       .then(err=>console.error(err))
 
-
-        console.log('Registration data:', registrationData);
+        // console.log('Registration data:', registrationData);
         // TODO: send data to API
     };
 
