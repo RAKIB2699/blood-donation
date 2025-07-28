@@ -5,16 +5,20 @@ import ContactUs from './ContactUs';
 
 const Home = () => {
     return (
-        <div>
+
+        <div >
            <div className='w-11/12 mx-auto'>
              <Banner></Banner>
            </div>
-           <div>
-            <Featured></Featured>
+
+            <div className='w-11/12 mx-auto'>
+                <Featured></Featured>
+            </div>
+
+           <div className='w-11/12 mx-auto'>
+             <ContactUs></ContactUs>
            </div>
-           <div>
-            <ContactUs></ContactUs>
-           </div>
+
         </div>
     );
 };

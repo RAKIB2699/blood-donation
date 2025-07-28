@@ -15,7 +15,7 @@ const ContactUs = () => {
   return (
     <section className="py-16 bg-gray-100 px-4">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-        {/* Contact Info */}
+       
         <div>
           <h2 className="text-3xl font-bold text-red-700 mb-4">Get in Touch</h2>
           <p className="text-gray-600 mb-6">
@@ -26,7 +26,7 @@ const ContactUs = () => {
           </p>
         </div>
 
-        {/* Contact Form */}
+       
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">Name</label>
