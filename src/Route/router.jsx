@@ -6,6 +6,7 @@ import MainLayOut from "../LayOut/MainLayOut";
 import Home from "../Home/Home";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
+import SearchDonors from "../SearchDonor/SearchDonors";
 
 
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         {
           path: '/login',
           Component: Login
+        },
+        {
+          path: '/search',
+          Component: SearchDonors
         }
     ]
   },

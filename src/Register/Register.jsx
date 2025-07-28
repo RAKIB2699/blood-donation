@@ -8,10 +8,11 @@ const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const Register = () => {
     const [error, setError] = useState();
-    const {Register,setUser} = useContext(AuthContext)
+    const { Register, setUser } = useContext(AuthContext)
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
     const [selectedDistrictId, setSelectedDistrictId] = useState('');
+    const [selectedUpazila, setSelectedUpazila] = useState('');
     const [filteredUpazilas, setFilteredUpazilas] = useState([]);
 
     // New form fields state
@@ -109,15 +110,15 @@ const Register = () => {
             avatar: avatarUrl,
             bloodGroup,
             districtId: selectedDistrictId,
-            upazilaId: filteredUpazilas.find((u) => u.id === selectedDistrictId) ? selectedDistrictId : '',
+            upazila: selectedUpazila,
             password,
             role: 'donor', // default role
             status: 'active', // default status
         };
 
-       axios.post('http://localhost:3000/blood',registrationData)
-       .then(res=>console.log(res.data))
-       .then(err=>console.error(err))
+        axios.post('http://localhost:3000/blood', registrationData)
+            .then(res => console.log(res.data))
+            .then(err => console.error(err))
 
         // console.log('Registration data:', registrationData);
         // TODO: send data to API
@@ -197,14 +198,20 @@ const Register = () => {
                 </select>
 
                 {/* Upazila Dropdown */}
-                <select className="select select-bordered w-full" required>
+                <select
+                    className="select select-bordered w-full"
+                    value={selectedUpazila}
+                    onChange={(e) => setSelectedUpazila(e.target.value)}
+                    required
+                >
                     <option value="">Select Upazila</option>
                     {filteredUpazilas.map((upazila) => (
-                        <option key={upazila.id} value={upazila.id}>
+                        <option key={upazila.id} value={upazila.name}>
                             {upazila.name}
                         </option>
                     ))}
                 </select>
+
 
                 {/* Password */}
                 <input

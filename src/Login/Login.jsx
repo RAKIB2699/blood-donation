@@ -71,7 +71,7 @@ const Login = () => {
                         <input type="password" name='password' className="input" placeholder="Password" />
                         <div><a className="link link-hover">Forgot password?</a></div>
                         <button className="btn btn-neutral mt-4">Login</button>
-                        <p>Dont have Account? <Link className='text-blue-600' to={'/login'}>Register</Link></p>
+                        <p>Dont have Account? <Link className='text-blue-600' to={'/register'}>Register</Link></p>
                         <p className='text-center'>Or</p>
                         <button onClick={handleGoogleLogin} className='btn w-full'><FcGoogle />Login With Google</button>
                     </form>
