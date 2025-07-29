@@ -15,6 +15,8 @@ import ContentManagement from "../dashboard/admin/contentManagement/ContentManag
 import CreateDonationRequest from "../dashboard/donor/createDonationRequest/CreateDonationRequest";
 import MyDonationRequests from "../dashboard/donor/myDonationRequests/MyDonationRequests";
 import Dashboard from "../dashboard/dashboard/Dashboard";
+import Profile from "../dashboard/Profile/Profile";
+
 
 
 const router = createBrowserRouter([
@@ -71,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: 'my-donation-requests',
         Component: MyDonationRequests
+      },
+      {
+        path: 'profile',
+        Component: Profile
       }
     ]
   }
