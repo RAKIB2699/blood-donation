@@ -1,50 +1,55 @@
 import React, { useContext, useEffect, useState } from 'react';
-
-import Swal from 'sweetalert2';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { AuthContext } from '../../../Provider/AuthProvider';
+import useRole from '../../../hooks/useRole';
+
+
 
 const CreateDonationRequest = () => {
     const { user } = useContext(AuthContext);
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
+    const [selectedDistrictId, setSelectedDistrictId] = useState('');
     const [filteredUpazilas, setFilteredUpazilas] = useState([]);
+    
+
+    const {status} = useRole();
+    console.log(status);
 
     const [formData, setFormData] = useState({
         recipientName: '',
+        hospitalName: '',
         district: '',
         upazila: '',
+        bloodGroup: '',
         donationDate: '',
         donationTime: '',
-        bloodGroup: '',
     });
 
-    // Load districts and upazilas
     useEffect(() => {
         fetch("/districts.json")
             .then((res) => res.json())
             .then((data) => {
-                const table = data.find(item => item.type === "table" && item.name === "districts");
+                const table = data.find((item) => item.type === "table" && item.name === "districts");
                 if (table) setDistricts(table.data);
             });
     }, []);
 
-    // Load upazilas
+    // Fetch upazilas
     useEffect(() => {
         fetch("/upazilas.json")
             .then((res) => res.json())
             .then((data) => {
-                const table = data.find(item => item.type === "table" && item.name === "upazilas");
+                const table = data.find((item) => item.type === "table" && item.name === "upazilas");
                 if (table) setUpazilas(table.data);
             });
     }, []);
 
-    // Filter upazilas based on selected district
+    // Filter upazilas by selected district
     useEffect(() => {
         if (formData.districtId) {
-            const filtered = upazilas.filter(
-                (u) => u.district_id === formData.districtId
-            );
+            const filtered = upazilas.filter((u) => u.district_id === formData.districtId);
             setFilteredUpazilas(filtered);
         } else {
             setFilteredUpazilas([]);
@@ -53,60 +58,106 @@ const CreateDonationRequest = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
+
+        if (name === 'district') {
+            setSelectedDistrictId(value);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const payload = {
+        if (status !== 'active') {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Blocked!',
+                text: 'You are not allowed to create a donation request.',
+            });
+        }
+
+        const requestData = {
             ...formData,
-            donorName: user?.displayName || '',
-            donorEmail: user?.email || '',
+            requesterName: user?.displayName,
+            requesterEmail: user?.email,
             status: 'pending',
+            createdAt: new Date(),
         };
 
         try {
-            const res = await axios.post('http://localhost:3000/donation-requests', payload);
+            const res = await axios.post('http://localhost:3000/donation-requests', requestData);
             if (res.data.insertedId) {
-                Swal.fire('Success', 'Donation request created successfully', 'success');
+                Swal.fire('Success!', 'Donation request created.', 'success');
                 setFormData({
                     recipientName: '',
-                    district: '',
+                    hospitalName: '',
+                    districtId: '',
                     upazila: '',
+                    bloodGroup: '',
                     donationDate: '',
                     donationTime: '',
-                    bloodGroup: '',
                 });
             }
         } catch (error) {
-            console.error('Failed to create donation request:', error);
-            Swal.fire('Error', 'Failed to create donation request', 'error');
+            console.error(error);
+            Swal.fire('Error!', 'Something went wrong.', 'error');
         }
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <div className="max-w-2xl mx-auto px-4 py-8">
             <h2 className="text-2xl font-bold mb-4">Create Donation Request</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
 
+            <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name and Email (Read-only) */}
                 <div>
-                    <label className="block">Recipient Name</label>
+                    <label className="block font-medium">Your Name</label>
                     <input
                         type="text"
-                        name="recipientName"
-                        value={formData.recipientName}
-                        onChange={handleChange}
+                        value={user?.displayName || ''}
+                        readOnly
                         className="w-full border px-3 py-2 rounded"
-                        required
+                    />
+                </div>
+                <div>
+                    <label className="block font-medium">Your Email</label>
+                    <input
+                        type="email"
+                        value={user?.email || ''}
+                        readOnly
+                        className="w-full border px-3 py-2 rounded"
                     />
                 </div>
 
+                {/* Recipient Name */}
                 <div>
-                    <label className="block">District</label>
+                    <label className="block font-medium">Recipient Name</label>
+                    <input
+                        type="text"
+                        name="recipientName"
+                        required
+                        value={formData.recipientName}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                    />
+                </div>
+
+                {/* Hospital Name */}
+                <div>
+                    <label className="block font-medium">Hospital Name</label>
+                    <input
+                        type="text"
+                        name="hospitalName"
+                        required
+                        value={formData.hospitalName}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                    />
+                </div>
+
+                {/* District Dropdown */}
+                <div>
+                    <label className="block font-medium">District</label>
                     <select
                         name="districtId"
                         value={formData.districtId}
@@ -122,8 +173,9 @@ const CreateDonationRequest = () => {
                     </select>
                 </div>
 
+                {/* Upazila Dropdown */}
                 <div>
-                    <label className="block">Upazila</label>
+                    <label className="block font-medium">Upazila</label>
                     <select
                         name="upazila"
                         value={formData.upazila}
@@ -140,49 +192,59 @@ const CreateDonationRequest = () => {
                     </select>
                 </div>
 
+                {/* Blood Group */}
                 <div>
-                    <label className="block">Donation Date</label>
-                    <input
-                        type="date"
-                        name="donationDate"
-                        value={formData.donationDate}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label className="block">Donation Time</label>
-                    <input
-                        type="time"
-                        name="donationTime"
-                        value={formData.donationTime}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label className="block">Blood Group</label>
+                    <label className="block font-medium">Blood Group</label>
                     <select
                         name="bloodGroup"
+                        required
                         value={formData.bloodGroup}
                         onChange={handleChange}
                         className="w-full border px-3 py-2 rounded"
-                        required
                     >
-                        <option value="">Select Blood Group</option>
-                        {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((group) => (
-                            <option key={group} value={group}>
-                                {group}
-                            </option>
-                        ))}
+                        <option value="">Select</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
                     </select>
                 </div>
 
-                <button type="submit" className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                {/* Donation Date */}
+                <div>
+                    <label className="block font-medium">Donation Date</label>
+                    <input
+                        type="date"
+                        name="donationDate"
+                        required
+                        value={formData.donationDate}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                    />
+                </div>
+
+                {/* Donation Time */}
+                <div>
+                    <label className="block font-medium">Donation Time</label>
+                    <input
+                        type="time"
+                        name="donationTime"
+                        required
+                        value={formData.donationTime}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                    />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                    type="submit"
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
                     Submit Request
                 </button>
             </form>

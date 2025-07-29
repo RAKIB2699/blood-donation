@@ -9,7 +9,7 @@ const Dashboard = () => {
     if(loading) return <p>Loading ...</p>
     return (
         <div>
-            this is dashboard
+            
             {
                 role == 'admin' && <AdminDashboard></AdminDashboard>
             }

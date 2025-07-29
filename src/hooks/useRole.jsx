@@ -4,6 +4,8 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 export default function useRole() {
   const [role, setRole] = useState("");
+  const [status,setStatus] = useState("")
+  
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
@@ -13,6 +15,7 @@ export default function useRole() {
         .get(`http://localhost:3000/get-user-role?email=${user.email}`)
         .then((res) => {
           setRole(res.data.role);
+          setStatus(res.data.status);
           setLoading(false);
         })
         .catch(() => {
@@ -22,5 +25,5 @@ export default function useRole() {
     }
   }, [user]);
 
-  return { role, loading };
+  return { role, loading, status };
 }
