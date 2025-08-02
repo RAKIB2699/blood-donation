@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import useRole from '../../../hooks/useRole';
+import { useNavigate } from 'react-router';
 
 
 
@@ -12,15 +13,15 @@ const CreateDonationRequest = () => {
     const [upazilas, setUpazilas] = useState([]);
     const [selectedDistrictId, setSelectedDistrictId] = useState('');
     const [filteredUpazilas, setFilteredUpazilas] = useState([]);
+    const navigate = useNavigate();
     
-
     const {status} = useRole();
-    console.log(status);
+    // console.log(status);
 
     const [formData, setFormData] = useState({
         recipientName: '',
         hospitalName: '',
-        district: '',
+        
         upazila: '',
         bloodGroup: '',
         donationDate: '',
@@ -80,6 +81,7 @@ const CreateDonationRequest = () => {
             ...formData,
             requesterName: user?.displayName,
             requesterEmail: user?.email,
+           
             status: 'pending',
             createdAt: new Date(),
         };
@@ -88,6 +90,7 @@ const CreateDonationRequest = () => {
             const res = await axios.post('http://localhost:3000/donation-requests', requestData);
             if (res.data.insertedId) {
                 Swal.fire('Success!', 'Donation request created.', 'success');
+                navigate('/dashboard/my-donation-requests')
                 setFormData({
                     recipientName: '',
                     hospitalName: '',

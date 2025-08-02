@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../../Provider/AuthProvider';
+import { useNavigate } from 'react-router';
 
 
 const MyDonationRequests = () => {
@@ -10,10 +11,46 @@ const MyDonationRequests = () => {
   const [requests, setRequests] = useState([]);
   const [statusFilter, setStatusFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [requestsPerPage] = useState(5); 
+  const [requestsPerPage] = useState(5);
+  const navigate = useNavigate();
 
-  
-                 
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      const res = await axios.patch(`http://localhost:3000/donation-requests/${id}`, { status: newStatus });
+      if (res.data.modifiedCount > 0) {
+        Swal.fire('Success', `Donation marked as ${newStatus}.`, 'success');
+        fetchRequests(); // Refresh data
+      }
+    } catch (error) {
+      Swal.fire('Error!', 'Failed to update status.', `${error}`);
+    }
+  };
+
+  // Delete with confirmation
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will permanently delete the request.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.delete(`http://localhost:3000/donation-requests/${id}`);
+          if (res.data.deletedCount > 0) {
+            Swal.fire('Deleted!', 'Donation request has been removed.', 'success');
+            fetchRequests(); // Refresh
+          }
+        } catch (error) {
+          Swal.fire('Error!', 'Deletion failed.', `${error}`);
+        }
+      }
+    });
+  };
+
 
   const fetchRequests = async () => {
     try {
@@ -27,7 +64,7 @@ const MyDonationRequests = () => {
 
       setRequests(data);
     } catch (err) {
-      Swal.fire('Error!', 'Failed to load donation requests.', 'error');
+      Swal.fire('Error!', 'Failed to load donation requests.', `${err}`);
     }
   };
 
@@ -42,7 +79,7 @@ const MyDonationRequests = () => {
   const indexOfFirst = indexOfLast - requestsPerPage;
   const currentRequests = requests.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(requests.length / requestsPerPage);
-
+  console.log(currentRequests);
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">My Donation Requests</h2>
@@ -81,13 +118,55 @@ const MyDonationRequests = () => {
               currentRequests.map((req) => (
                 <tr key={req._id}>
                   <td className="border px-4 py-2">{req.recipientName}</td>
-                  <td className="border px-4 py-2">
-                    {req.district}, {req.upazila}
-                  </td>
+                  <td className="border px-4 py-2">{req.upazila}</td>
                   <td className="border px-4 py-2">{req.bloodGroup}</td>
                   <td className="border px-4 py-2">{req.donationDate}</td>
                   <td className="border px-4 py-2">{req.donationTime}</td>
-                  <td className="border px-4 py-2 capitalize">{req.status}</td>
+                  <td className="border px-4 py-2 capitalize">
+                    {req.status}
+
+
+                    {req.status === 'inprogress' && (
+                      <div className="text-sm mt-1 text-gray-600">
+                        <p><strong>Donor:</strong> {req.donorName}</p>
+                        <p><strong>Email:</strong> {req.donorEmail}</p>
+                      </div>
+                    )}
+
+
+                    {req.status === 'inprogress' && (
+                      <div className="flex gap-1 mt-2">
+                        <button
+                          onClick={() => handleStatusChange(req._id, 'done')}
+                          className="px-2 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700"
+                        >
+                          Done
+                        </button>
+                        <button
+                          onClick={() => handleStatusChange(req._id, 'canceled')}
+                          className="px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+
+                    
+                    <div className="flex gap-1 mt-2">
+                      <button
+                        onClick={() => navigate(`/dashboard/edit-donation-request/${req._id}`)}
+                        className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(req._id)}
+                        className="px-2 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-700"
+                      >
+                        Delete
+                      </button>
+                    </div> 
+                  </td>
                 </tr>
               ))
             ) : (
@@ -97,6 +176,7 @@ const MyDonationRequests = () => {
                 </td>
               </tr>
             )}
+
           </tbody>
         </table>
       </div>
@@ -108,9 +188,8 @@ const MyDonationRequests = () => {
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 rounded ${
-                page === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-200'
-              }`}
+              className={`px-3 py-1 rounded ${page === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-200'
+                }`}
             >
               {page}
             </button>

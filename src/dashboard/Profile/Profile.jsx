@@ -46,7 +46,12 @@ const Profile = () => {
           {isEditing ? 'Cancel' : 'Edit'}
         </button>
       </div>
-
+    <div className=''>
+          <img
+            src={profile.avatar}
+            className="w-[120px] h-[120px] border border-gray-400 mx-auto  rounded-full"
+          />
+        </div>
       <div className="grid grid-cols-1 gap-4">
         <div>
           <label>Name</label>
@@ -71,17 +76,7 @@ const Profile = () => {
           />
         </div>
 
-        <div>
-          <label>Avatar URL</label>
-          <input
-            name="avatar"
-            type="text"
-            value={profile.avatar || ''}
-            onChange={handleChange}
-            disabled={!isEditing}
-            className="w-full border p-2 rounded"
-          />
-        </div>
+        
 
         <div>
           <label>District</label>

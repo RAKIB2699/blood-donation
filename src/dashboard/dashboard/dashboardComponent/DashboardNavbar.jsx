@@ -42,17 +42,10 @@ const DashboardNavbar = () => {
                 <User size={18} /> Profile
             </NavLink>
 
-            <NavLink
-                to="/"
-                className={({ isActive }) =>
-                    `${baseClass} ${isActive ? activeClass : 'hover:bg-gray-100'}`
-                }
-            >
-                <User size={18} /> back
-            </NavLink>
+
 
             {/* Admin-specific links */}
-            {role === 'admin' && (
+            {/* {role === 'admin' && ( */}
                 <>
                     <NavLink
                         to="/dashboard/all-users"
@@ -81,10 +74,10 @@ const DashboardNavbar = () => {
                         <FileText size={18} /> Content Management
                     </NavLink>
                 </>
-            )}
+            {/* )} */}
 
             {/* Donor-specific links */}
-            {role === 'donor' && (
+            {/* {role === 'donor' && ( */}
                 <>
                     <NavLink
                         to="/dashboard/create-donation-request"
@@ -104,9 +97,18 @@ const DashboardNavbar = () => {
                         <List size={18} /> My Donation Requests
                     </NavLink>
                 </>
-            )}
+            {/* )} */}
 
             {/* Volunteer-specific links can be added here later */}
+
+                        <NavLink
+                to="/"
+                className={({ isActive }) =>
+                    `${baseClass} ${isActive ? activeClass : 'hover:bg-gray-100'}`
+                }
+            >
+                <User size={18} /> back
+            </NavLink>
         </nav>
     );
 };

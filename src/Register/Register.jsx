@@ -8,7 +8,7 @@ const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const Register = () => {
     const [error, setError] = useState();
-    const { Register, setUser } = useContext(AuthContext)
+    const { Register, setUser, updateUser } = useContext(AuthContext)
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
     const [selectedDistrictId, setSelectedDistrictId] = useState('');
@@ -25,7 +25,8 @@ const Register = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-
+    const district = districts.find((item)=> item.id == selectedDistrictId)
+    
     useEffect(() => {
         fetch('/districts.json')
             .then((res) => res.json())
@@ -60,17 +61,20 @@ const Register = () => {
     }, [selectedDistrictId, upazilas]);
 
     // Handler for avatar file upload (upload logic needs to be implemented)
-    const handleAvatarUpload = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+    // const handleAvatarUpload = (e) => {
+    //     const file = e.target.files[0];
+    //     if (!file) return;
 
-        // Placeholder: create local URL for preview
-        const url = URL.createObjectURL(file);
-        setAvatarUrl(url);
+    //     // Placeholder: create local URL for preview
+    //     const url = URL.createObjectURL(file);
+    //     setAvatarUrl(url);
 
-        // TODO: Upload the file to ImageBB or your image hosting service and set the real URL
-    };
-
+    //     // TODO: Upload the file to ImageBB or your image hosting service and set the real URL
+    // };
+  const updatedUser ={
+            name,
+            photoURL: avatarUrl
+        }
     // Form submit handler placeholder
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -88,6 +92,9 @@ const Register = () => {
 
         Register(email, password)
             .then((result) => {
+                updateUser(updatedUser)
+                .then()
+                .catch(err=>console.log(err))
                 const user = result.user;
                 setUser(user);
                 Swal.fire({
@@ -109,16 +116,17 @@ const Register = () => {
             name,
             avatar: avatarUrl,
             bloodGroup,
-            districtId: selectedDistrictId,
+            district: district.name,
             upazila: selectedUpazila,
             password,
             role: 'donor', // default role
             status: 'active', // default status
         };
+      
 
         axios.post('http://localhost:3000/blood', registrationData)
             .then(res => console.log(res.data))
-            .then(err => console.error(err))
+            .catch(err => console.log(err))
 
         // console.log('Registration data:', registrationData);
         // TODO: send data to API
@@ -153,18 +161,11 @@ const Register = () => {
                 <div>
                     <label className="block mb-1 font-semibold">Avatar</label>
                     <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleAvatarUpload}
-                        className="file-input file-input-bordered w-full"
+                        type="text"
+                        placeholder='Enter PhotoURL'
+                        onChange={(e)=>setAvatarUrl(e.target.value)}
+                        className="input input-bordered w-full"
                     />
-                    {avatarUrl && (
-                        <img
-                            src={avatarUrl}
-                            alt="Avatar Preview"
-                            className="mt-2 w-24 h-24 object-cover rounded-full"
-                        />
-                    )}
                 </div>
 
                 {/* Blood Group */}

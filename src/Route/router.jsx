@@ -16,6 +16,8 @@ import CreateDonationRequest from "../dashboard/donor/createDonationRequest/Crea
 import MyDonationRequests from "../dashboard/donor/myDonationRequests/MyDonationRequests";
 import Dashboard from "../dashboard/dashboard/Dashboard";
 import Profile from "../dashboard/Profile/Profile";
+import EditRequest from "../dashboard/donor/EditRequest/EditRequest";
+import AddBlog from "../dashboard/admin/contentManagement/addblog/AddBlog";
 
 
 
@@ -77,6 +79,15 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         Component: Profile
+      },
+      {
+        path: `edit-donation-request/:id`,
+        loader : ({params})=>fetch(`http://localhost:3000/donation-req/${params.id}`),
+        Component : EditRequest
+      },
+      {
+        path: 'add-blog',
+        Component : AddBlog
       }
     ]
   }

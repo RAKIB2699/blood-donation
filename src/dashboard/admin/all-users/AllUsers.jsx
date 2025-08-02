@@ -58,9 +58,9 @@ const AllUsers = () => {
             <h2 className="text-2xl font-semibold mb-4">All Users</h2>
 
             <div className="mb-4 flex flex-wrap gap-2">
-                <Button onClick={() => setStatusFilter('all')}>All</Button>
-                <Button onClick={() => setStatusFilter('active')}>Active</Button>
-                <Button onClick={() => setStatusFilter('blocked')}>Blocked</Button>
+                <Button className='btn text-black'  onClick={() => setStatusFilter('all')}>All</Button>
+                <Button className='btn text-black' onClick={() => setStatusFilter('active')}>Active</Button>
+                <Button className='btn text-black' onClick={() => setStatusFilter('blocked')}>Blocked</Button>
             </div>
 
             <div className="overflow-x-auto">
@@ -111,11 +111,22 @@ const AllUsers = () => {
                                                     <FaUserCheck className="inline mr-2" /> Unblock
                                                 </MenuItem>
                                             )}
-                                            {user.role !== 'volunteer' && (
+                                            {user.role !== 'volunteer' ? (
                                                 <MenuItem
                                                     onClick={() => handleRoleChange(user._id, 'volunteer')}
                                                 >
                                                     <FaUser className="inline mr-2" /> Make Volunteer
+                                                </MenuItem>
+                                            ) : <MenuItem
+                                                    onClick={() => handleRoleChange(user._id, 'donor')}
+                                                >
+                                                    <FaUser className="inline mr-2" /> Make Donor
+                                                </MenuItem>}
+                                            {user.role !== 'admin' && (
+                                                <MenuItem
+                                                    onClick={() => handleRoleChange(user._id, 'admin')}
+                                                >
+                                                    <FaUser className="inline mr-2" /> Make Admin
                                                 </MenuItem>
                                             )}
                                            

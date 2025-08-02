@@ -3,13 +3,14 @@ import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '../../../Provider/AuthProvider';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 
 const DonorDashboard = () => {
     const { user } = useContext(AuthContext);
     const [donationRequests, setDonationRequests] = useState([]);
-
-
+    const navigate = useNavigate()
+    // console.log(user);
     useEffect(() => {
         if (user?.email) {
             axios.get(`http://localhost:3000/donation-requests?email=${user.email}`)
@@ -19,7 +20,7 @@ const DonorDashboard = () => {
                 })
                 .catch(err => console.error(err));
         }
-    }, [axios, user]);
+    }, [user]);
 
     return (
         <div className="p-4 sm:p-6">
@@ -75,6 +76,9 @@ const DonorDashboard = () => {
                             </tbody>
                         </table>
                     </div>
+                        <div className='text-center my-4'>
+                            <button onClick={()=>{navigate('/dashboard/my-donation-requests')}} className='btn bg-red-600 text-white'>View all</button>
+                        </div>
                 </>
             )}
         </div>

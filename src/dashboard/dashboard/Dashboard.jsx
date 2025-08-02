@@ -11,7 +11,7 @@ const Dashboard = () => {
         <div>
             
             {
-                role == 'admin' && <AdminDashboard></AdminDashboard>
+               ( role == 'admin' || role =='volunteer') && <AdminDashboard></AdminDashboard>
             }
              {
                 role == 'donor' && <DonorDashboard></DonorDashboard>
