@@ -5,6 +5,7 @@ import { AuthContext } from '../../../Provider/AuthProvider';
 import { useNavigate } from 'react-router';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import useRole from '../../../hooks/useRole';
 
 const AllBloodDonationRequest = () => {
   const { user } = useContext(AuthContext);
@@ -13,6 +14,8 @@ const AllBloodDonationRequest = () => {
   const [requestsPerPage] = useState(5);
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
+  const { role } = useRole();
+
 
   const { data: requests = [], refetch, isLoading } = useQuery({
     queryKey: ['/all-blood-request'],
@@ -126,7 +129,7 @@ const AllBloodDonationRequest = () => {
                       </div>
                     )}
 
-                    {req.status === 'inprogress' && (
+                    {(role === 'admin' || role === 'volunteer') && req.status === 'inprogress' && (
                       <div className="flex gap-1 mt-2">
                         <button
                           onClick={() => handleStatusChange(req._id, 'done')}
@@ -143,21 +146,26 @@ const AllBloodDonationRequest = () => {
                       </div>
                     )}
 
-                    <div className="flex gap-1 mt-2">
-                      <button
-                        onClick={() => navigate(`/dashboard/edit-donation-request/${req._id}`)}
-                        className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(req._id)}
-                        className="px-2 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-700"
-                      >
-                        Delete
-                      </button>
-                    </div>
+
+                    {role === 'admin' && (
+                      <div className="flex gap-1 mt-2">
+                        <button
+                          onClick={() => navigate(`/dashboard/edit-donation-request/${req._id}`)}
+                          className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(req._id)}
+                          className="px-2 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-700"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+
                   </td>
+
                 </tr>
               ))
             ) : (

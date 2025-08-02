@@ -6,6 +6,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import useRole from '../../../hooks/useRole';
+import Loading from '../../../Loading';
 
 const ContentManagement = () => {
     const [filter, setFilter] = useState('all');
@@ -60,7 +61,7 @@ const ContentManagement = () => {
         return blog.status === filter;
     });
 
-    if (isLoading) return <p>Loading blogs...</p>;
+    if (isLoading) return <Loading></Loading>;
     if (isError) return <p>Failed to load blogs.</p>;
 
     return (

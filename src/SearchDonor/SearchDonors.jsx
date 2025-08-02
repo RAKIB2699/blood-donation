@@ -33,7 +33,7 @@ const SearchDonors = () => {
       });
   }, []);
 
-  // Filter upazilas by selected district
+  // Filter upazilas based on selected districtId
   useEffect(() => {
     if (formData.districtId) {
       const filtered = upazilas.filter((u) => u.district_id === formData.districtId);
@@ -43,7 +43,6 @@ const SearchDonors = () => {
     }
   }, [formData.districtId, upazilas]);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -51,19 +50,30 @@ const SearchDonors = () => {
     }));
   };
 
-  // Search donors
+  // Handle search logic
   const handleSearch = async (e) => {
     e.preventDefault();
     setSearchClicked(true);
 
-    const query = new URLSearchParams();
-    if (formData.bloodGroup) query.append("bloodGroup", formData.bloodGroup);
-    if (formData.districtId) query.append("districtId", formData.districtId);
-    if (formData.upazila) query.append("upazila", formData.upazila);
+    try {
+      const res = await fetch("http://localhost:3000/blood");
+      const allDonors = await res.json();
 
-    const res = await fetch(`http://localhost:3000/blood?${query}`);
-    const data = await res.json();
-    setDonors(data);
+      // Find the district name by selected ID
+      const selectedDistrict = districts.find((d) => d.id === formData.districtId)?.name;
+
+      // Filter donors based on full match
+      const matchedDonors = allDonors.filter(
+        (donor) =>
+          donor.bloodGroup === formData.bloodGroup &&
+          donor.district === selectedDistrict &&
+          donor.upazila === formData.upazila
+      );
+
+      setDonors(matchedDonors);
+    } catch (err) {
+      console.error("Error fetching donors:", err);
+    }
   };
 
   return (
@@ -76,6 +86,7 @@ const SearchDonors = () => {
           value={formData.bloodGroup}
           onChange={handleChange}
           className="w-full border p-2 rounded"
+          required
         >
           <option value="">Select Blood Group</option>
           <option value="A+">A+</option>
@@ -93,6 +104,7 @@ const SearchDonors = () => {
           value={formData.districtId}
           onChange={handleChange}
           className="w-full border p-2 rounded"
+          required
         >
           <option value="">Select District</option>
           {districts.map((d) => (
@@ -107,6 +119,7 @@ const SearchDonors = () => {
           value={formData.upazila}
           onChange={handleChange}
           className="w-full border p-2 rounded"
+          required
           disabled={!formData.districtId}
         >
           <option value="">Select Upazila</option>
@@ -125,7 +138,7 @@ const SearchDonors = () => {
         </button>
       </form>
 
-      {/* Donor results */}
+      {/* Donor Results */}
       <div className="mt-6">
         {!searchClicked ? null : donors.length === 0 ? (
           <p className="text-gray-500 text-center mt-4">No donors found</p>
@@ -136,7 +149,7 @@ const SearchDonors = () => {
                 <h3 className="font-bold">{donor.name}</h3>
                 <p>Email: {donor.email}</p>
                 <p>Blood Group: {donor.bloodGroup}</p>
-                <p>District ID: {donor.districtId}</p>
+                <p>District: {donor.district}</p>
                 <p>Upazila: {donor.upazila}</p>
               </li>
             ))}
