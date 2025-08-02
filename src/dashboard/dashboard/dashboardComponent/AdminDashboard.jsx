@@ -18,7 +18,7 @@ const AdminDashboard = () => {
             .catch(err => console.error(err));
 
         // Fetch total funding amount
-        axios.get('/api/stats/total-funds')
+        axios.get('http://localhost:3000/stats/total-funds')
             .then(res => setTotalFunds(res.data.total))
             .catch(err => console.error(err));
 
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
                 <div className="bg-white rounded-2xl shadow p-6 flex items-center gap-4">
                     <FaDonate className="text-4xl text-green-500" />
                     <div>
-                        <p className="text-xl font-bold">${totalFunds}</p>
+                        <p className="text-xl font-bold">৳{totalFunds}</p>
                         <p className="text-gray-600">Total Funding</p>
                     </div>
                 </div>

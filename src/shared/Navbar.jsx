@@ -20,8 +20,9 @@ const Navbar = () => {
             <li><NavLink to="/">Home</NavLink></li>
             
             <li><NavLink to="/request">Request Blood</NavLink></li>
-            {user && <li><NavLink to="/funding">Funding</NavLink></li>}
+            <li><NavLink to="/founding-page">Founding</NavLink></li>
             {user && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
+            {user && <li><NavLink to="/blog">Blog</NavLink></li>}
         </>
     );
 

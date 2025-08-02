@@ -19,6 +19,10 @@ import Profile from "../dashboard/Profile/Profile";
 import EditRequest from "../dashboard/donor/EditRequest/EditRequest";
 import AddBlog from "../dashboard/admin/contentManagement/addblog/AddBlog";
 import RequestDetails from "../RequestDetails/RequestDetails";
+import PrivateRoute from "../Provider/PrivateRoute";
+import Blog from "../shared/Blog/Blog";
+import BlogDetails from "../shared/BlogDetails/BlogDetails";
+import FoundingPage from "../founding/FoundingPage"
 
 
 
@@ -49,7 +53,21 @@ const router = createBrowserRouter([
         },
         {
            path: "/donation-request/:id",
-          element :<RequestDetails />
+          element : <PrivateRoute>
+            <RequestDetails />
+          </PrivateRoute>
+        },
+        {
+          path: '/blog',
+          Component : Blog
+        },
+        {
+          path: '/blogs/:id',
+          Component: BlogDetails
+        },
+        {
+          path: '/founding-page',
+          Component: FoundingPage
         }
     ]
   },
