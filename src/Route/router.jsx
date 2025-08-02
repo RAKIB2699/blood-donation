@@ -18,6 +18,7 @@ import Dashboard from "../dashboard/dashboard/Dashboard";
 import Profile from "../dashboard/Profile/Profile";
 import EditRequest from "../dashboard/donor/EditRequest/EditRequest";
 import AddBlog from "../dashboard/admin/contentManagement/addblog/AddBlog";
+import RequestDetails from "../RequestDetails/RequestDetails";
 
 
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         {
           path: '/request',
           Component: PendingRequests
+        },
+        {
+           path: "/donation-request/:id",
+          element :<RequestDetails />
         }
     ]
   },

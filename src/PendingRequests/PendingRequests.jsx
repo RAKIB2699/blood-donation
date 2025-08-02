@@ -8,7 +8,7 @@ const PendingRequests = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch("http://localhost:3000/donation-requests?status=pending")
+    fetch("http://localhost:3000/all-pending-donation")
       .then((res) => res.json())
       .then((data) => setRequests(data));
   }, []);
@@ -39,10 +39,10 @@ const PendingRequests = () => {
                 <span className="font-medium">Blood Group:</span> {req.bloodGroup}
               </p>
               <p>
-                <span className="font-medium">Date:</span> {req.date}
+                <span className="font-medium">Date:</span> {req.donationDate}
               </p>
               <p>
-                <span className="font-medium">Time:</span> {req.time}
+                <span className="font-medium">Time:</span> {req.donationTime}
               </p>
               <button
                 onClick={() => handleView(req._id)}
