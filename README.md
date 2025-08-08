@@ -8,7 +8,7 @@ The platform enables **donors**, **volunteers**, and **admins** to manage blood 
 ## 🌐 Live Links
 
 - **Client:** [https://blood-donation-85325.web.app](https://blood-donation-85325.web.app)  
-- **Server API:** [https://blood-donation-server-iy4zyi1kx-rakib2699s-projects.vercel.app/](https://blood-donation-server-iy4zyi1kx-rakib2699s-projects.vercel.app/)  
+ 
 - **Admin Login:**
   - **Username (Email):** `admin@admin.com`
   - **Password:** `Admin@123`
