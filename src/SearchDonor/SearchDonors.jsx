@@ -56,7 +56,7 @@ const SearchDonors = () => {
     setSearchClicked(true);
 
     try {
-      const res = await fetch("http://localhost:3000/blood");
+      const res = await fetch("https://blood-donation-server-olive.vercel.app/blood");
       const allDonors = await res.json();
 
       // Find the district name by selected ID

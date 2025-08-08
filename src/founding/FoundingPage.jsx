@@ -1,25 +1,28 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import axios from 'axios';
 import CheckoutForm from './CheckoutForm';
 import { AuthContext } from '../Provider/AuthProvider';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 const FundingPage = () => {
-  const [fundings, setFundings] = useState([]);
+//   const [fundings, setFundings] = useState([]);
   const [showCheckout, setShowCheckout] = useState(false);
   const [amount, setAmount] = useState('');
-  const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/fundings')
-      .then(res => setFundings(res.data))
-      .catch(err => console.error(err));
-  }, []);
-
-  const totalFunds = fundings.reduce((sum, fund) => sum + fund.amount, 0);
+  const {data:fundings}=useQuery({
+    queryKey: ['fundings'],
+    queryFn: async()=>{
+        const res =await  axiosSecure.get('/fundings')
+        return res.data
+    }
+  })
+  console.log(fundings);
+  const totalFunds = fundings?.reduce((sum, fund) => sum + fund.amount, 0);
 
   const handleCheckoutClick = () => {
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
@@ -27,7 +30,6 @@ const FundingPage = () => {
     }
     setShowCheckout(true);
   };
-
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
@@ -56,7 +58,7 @@ const FundingPage = () => {
           </tr>
         </thead>
         <tbody>
-          {fundings.map((fund, index) => (
+          {fundings?.map((fund, index) => (
             <tr key={index} className="text-center">
               <td className="border p-2">{fund.name}</td>
               <td className="border p-2">৳ {fund.amount}</td>
@@ -72,8 +74,7 @@ const FundingPage = () => {
             <CheckoutForm amount={parseFloat(amount)} onSuccess={() => {
               setShowCheckout(false);
               setAmount('');
-              axios.get('http://localhost:3000/fundings') // Refresh data
-                .then(res => setFundings(res.data));
+             
             }} />
           </Elements>
         </div>

@@ -22,7 +22,10 @@ import RequestDetails from "../RequestDetails/RequestDetails";
 import PrivateRoute from "../Provider/PrivateRoute";
 import Blog from "../shared/Blog/Blog";
 import BlogDetails from "../shared/BlogDetails/BlogDetails";
-import FoundingPage from "../founding/FoundingPage"
+import CommonRoute from "../Provider/CommonRoute";
+import AdminRoute from "../Provider/adminRoute";
+import FundingPage from "../founding/FoundingPage";
+
 
 
 
@@ -67,7 +70,7 @@ const router = createBrowserRouter([
         },
         {
           path: '/founding-page',
-          Component: FoundingPage
+          element: <PrivateRoute><FundingPage/></PrivateRoute>
         }
     ]
   },
@@ -77,40 +80,40 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Dashboard
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>
       },
       {
         path: 'all-users',
-        Component: AllUsers
+        element:<AdminRoute><AllUsers/></AdminRoute>
       },
       {
         path: 'all-donation-requests',
-        Component: AllBloodDonationRequest
+        element: <CommonRoute><AllBloodDonationRequest/></CommonRoute>
       },
       {
         path: 'content-management',
-        Component: ContentManagement,
+        element: <CommonRoute><ContentManagement/></CommonRoute>
       },
       {
         path: 'create-donation-request',
-        Component: CreateDonationRequest,
+        element:<PrivateRoute><CreateDonationRequest></CreateDonationRequest></PrivateRoute>
       },
       {
         path: 'my-donation-requests',
-        Component: MyDonationRequests
+        element: <PrivateRoute><MyDonationRequests></MyDonationRequests></PrivateRoute>
       },
       {
         path: 'profile',
-        Component: Profile
+        element: <PrivateRoute><Profile></Profile></PrivateRoute>
       },
       {
         path: `edit-donation-request/:id`,
-        loader : ({params})=>fetch(`http://localhost:3000/donation-req/${params.id}`),
-        Component : EditRequest
+        loader : ({params})=>fetch(`https://blood-donation-server-olive.vercel.app/donation-req/${params.id}`),
+        element: <PrivateRoute><EditRequest/></PrivateRoute>
       },
       {
         path: 'add-blog',
-        Component : AddBlog
+        element: <CommonRoute><AddBlog/></CommonRoute>
       }
     ]
   }

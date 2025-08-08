@@ -13,17 +13,17 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         // Fetch total donor count
-        axios.get('http://localhost:3000/stats/total-donors')
+        axios.get('https://blood-donation-server-olive.vercel.app/stats/total-donors')
             .then(res => setTotalDonors(res.data.total))
             .catch(err => console.error(err));
 
         // Fetch total funding amount
-        axios.get('http://localhost:3000/stats/total-funds')
+        axios.get('https://blood-donation-server-olive.vercel.app/stats/total-funds')
             .then(res => setTotalFunds(res.data.total))
             .catch(err => console.error(err));
 
         // Fetch total donation requests
-        axios.get('http://localhost:3000/stats/total-donation-requests')
+        axios.get('https://blood-donation-server-olive.vercel.app/stats/total-donation-requests')
             .then(res => setTotalRequests(res.data.total))
             .catch(err => console.error(err));
     }, []);
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
                 <div className="bg-white rounded-2xl shadow p-6 flex items-center gap-4">
                     <FaDonate className="text-4xl text-green-500" />
                     <div>
-                        <p className="text-xl font-bold">৳{totalFunds}</p>
+                        <p className="text-xl font-bold">৳ {totalFunds}</p>
                         <p className="text-gray-600">Total Funding</p>
                     </div>
                 </div>

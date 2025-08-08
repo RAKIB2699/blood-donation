@@ -33,19 +33,11 @@ const DashboardNavbar = () => {
                 <Home size={18} /> Home
             </NavLink>
 
-            <NavLink
-                to="/dashboard/profile"
-                className={({ isActive }) =>
-                    `${baseClass} ${isActive ? activeClass : 'hover:bg-gray-100'}`
-                }
-            >
-                <User size={18} /> Profile
-            </NavLink>
 
 
 
             {/* Admin-specific links */}
-            {/* {role === 'admin' && ( */}
+            {role === 'admin' && (
                 <>
                     <NavLink
                         to="/dashboard/all-users"
@@ -74,11 +66,20 @@ const DashboardNavbar = () => {
                         <FileText size={18} /> Content Management
                     </NavLink>
                 </>
-            {/* )} */}
+            )} 
 
-            {/* Donor-specific links */}
-            {/* {role === 'donor' && ( */}
+            {/* /* Donor-specific links */}
+             {role === 'donor' &&  
                 <>
+                
+            <NavLink
+                to="/dashboard/profile"
+                className={({ isActive }) =>
+                    `${baseClass} ${isActive ? activeClass : 'hover:bg-gray-100'}`
+                }
+            >
+                <User size={18} /> Profile
+            </NavLink>
                     <NavLink
                         to="/dashboard/create-donation-request"
                         className={({ isActive }) =>
@@ -97,8 +98,25 @@ const DashboardNavbar = () => {
                         <List size={18} /> My Donation Requests
                     </NavLink>
                 </>
-            {/* )} */}
-
+             } 
+{
+    role== 'volunteer' && <><NavLink
+                        to="/dashboard/all-donation-requests"
+                        className={({ isActive }) =>
+                            `${baseClass} ${isActive ? activeClass : 'hover:bg-gray-100'}`
+                        }
+                    >
+                        <HeartHandshake size={18} /> All Blood Donation Requests
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/content-management"
+                        className={({ isActive }) =>
+                            `${baseClass} ${isActive ? activeClass : 'hover:bg-gray-100'}`
+                        }
+                    >
+                        <FileText size={18} /> Content Management
+                    </NavLink></>
+}
             {/* Volunteer-specific links can be added here later */}
 
                         <NavLink

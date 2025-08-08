@@ -1,12 +1,12 @@
 import React, { use, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { FcGoogle } from "react-icons/fc";
+
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
 
 
 const Login = () => {
-    const { Login, setUser, LoginWithGoogle } = use(AuthContext)
+    const { Login, setUser } = use(AuthContext)
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
@@ -37,26 +37,7 @@ const Login = () => {
             })
     }
 
-    const handleGoogleLogin = () => {
-        LoginWithGoogle()
-            .then((result) => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "login successfully",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate(location?.state || "/");
-                const user = result.user;
-                setUser(user);
-                setError('');
-
-            })
-            .catch((error) => {
-                setError(error.message)
-            })
-    }
+  
     return (
         <div className="hero bg-base-200 min-h-screen">
 
@@ -72,8 +53,7 @@ const Login = () => {
                         <div><a className="link link-hover">Forgot password?</a></div>
                         <button className="btn btn-neutral mt-4">Login</button>
                         <p>Dont have Account? <Link className='text-blue-600' to={'/register'}>Register</Link></p>
-                        <p className='text-center'>Or</p>
-                        <button onClick={handleGoogleLogin} className='btn w-full'><FcGoogle />Login With Google</button>
+                    
                     </form>
                     {
                         error && <p className='text-red-500'>{error}</p>

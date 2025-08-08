@@ -23,7 +23,7 @@ const AllUsers = () => {
 
     const handleStatusChange = async (id, newStatus) => {
         try {
-            await axios.patch(`http://localhost:3000/users/${id}/status`, { status: newStatus });
+            await axios.patch(`https://blood-donation-server-olive.vercel.app/users/${id}/status`, { status: newStatus });
             // fetchUsers();
             refetch()
 
@@ -34,7 +34,7 @@ const AllUsers = () => {
 
     const handleRoleChange = async (id, role) => {
         try {
-            await axios.patch(`http://localhost:3000/users/${id}/role`, { role });
+            await axios.patch(`https://blood-donation-server-olive.vercel.app/users/${id}/role`, { role });
             // fetchUsers();
             refetch()
         } catch (err) {

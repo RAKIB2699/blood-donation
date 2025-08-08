@@ -9,7 +9,7 @@ const Navbar = () => {
 
     const handleLogOut = () => {
         logOut()
-            .then(() => { })
+            .then(() => {window.location.reload()})
             .catch((err) => console.error(err))
         Navigate('/')
 

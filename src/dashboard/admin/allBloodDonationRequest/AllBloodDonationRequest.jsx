@@ -27,7 +27,7 @@ const AllBloodDonationRequest = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const res = await axios.patch(`http://localhost:3000/donation-requests/${id}`, { status: newStatus });
+      const res = await axios.patch(`https://blood-donation-server-olive.vercel.app/donation-requests/${id}`, { status: newStatus });
       if (res.data.modifiedCount > 0) {
         Swal.fire('Success', `Donation marked as ${newStatus}.`, 'success');
         refetch();
@@ -48,7 +48,7 @@ const AllBloodDonationRequest = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axios.delete(`http://localhost:3000/donation-requests/${id}`);
+          const res = await axios.delete(`https://blood-donation-server-olive.vercel.app/donation-requests/${id}`);
           if (res.data.deletedCount > 0) {
             Swal.fire('Deleted!', 'Donation request has been removed.', 'success');
             refetch();

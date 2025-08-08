@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import useRole from '../../../hooks/useRole';
 import Loading from '../../../Loading';
+import axios from 'axios';
 
 const ContentManagement = () => {
     const [filter, setFilter] = useState('all');
@@ -16,7 +17,7 @@ const ContentManagement = () => {
     const { refetch, data: blogs = [], isLoading, isError } = useQuery({
         queryKey: ['blogs'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/blogs');
+            const res = await axios.get('https://blood-donation-server-olive.vercel.app/blogs');
             return res.data;
         },
     });
@@ -98,12 +99,12 @@ const ContentManagement = () => {
                             <img src={blog.thumbnail} alt="thumbnail" className="w-full h-48 object-cover" />
                             <div className="p-4 space-y-2">
                                 <h3 className="text-lg font-bold">{blog.title}</h3>
-                                <p className="text-sm text-gray-500">
+                                
                                     <div
-                                        className="prose max-w-none mt-2"
+                                        className="prose max-w-none mt-2 text-sm text-gray-500"
                                         dangerouslySetInnerHTML={{ __html: blog.content }}
                                     ></div>
-                                </p>
+
                                 <div className="flex gap-3 mt-4 flex-wrap">
                                     {role === 'admin' && (
                                         <>

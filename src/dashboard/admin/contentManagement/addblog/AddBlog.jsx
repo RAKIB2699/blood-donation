@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import JoditEditor from 'jodit-react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
-import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import axios from 'axios';
 
 const imageBB_API_KEY = import.meta.env.VITE_IMAGEBB_API_KEY;
 const imageBB_URL = `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`;
@@ -12,7 +12,6 @@ const AddBlog = () => {
   const { register, handleSubmit, reset } = useForm();
   const [content, setContent] = useState('');
   const editor = useRef(null);
-  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -20,7 +19,7 @@ const AddBlog = () => {
       const formData = new FormData();
       formData.append('image', data.thumbnail[0]);
 
-      const { data: imageRes } = await axiosSecure.post(imageBB_URL, formData);
+      const { data: imageRes } = await axios.post(imageBB_URL, formData);
       const thumbnail = imageRes.data.url;
 
       const blogData = {
@@ -30,7 +29,7 @@ const AddBlog = () => {
         createdAt: new Date(),
       };
 
-      await axiosSecure.post('/blogs', blogData);
+      await axios.post('https://blood-donation-server-olive.vercel.app/blogs', blogData);
 
       Swal.fire({
         icon: 'success',

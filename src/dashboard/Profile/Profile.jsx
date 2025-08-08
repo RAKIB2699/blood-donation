@@ -11,7 +11,7 @@ const Profile = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:3000/users/${user.email}`)
+        .get(`https://blood-donation-server-olive.vercel.app/users/${user.email}`)
         .then((res) => setProfile(res.data))
         .catch((err) => console.error(err));
     }
@@ -24,7 +24,7 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      const res = await axios.put(`http://localhost:3000/users/${user.email}`, profile);
+      const res = await axios.put(`https://blood-donation-server-olive.vercel.app/users/${user.email}`, profile);
       if (res.data.modifiedCount > 0) {
         Swal.fire('Success!', 'Profile updated successfully', 'success');
         setIsEditing(false);
