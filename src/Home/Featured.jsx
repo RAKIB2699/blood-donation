@@ -4,7 +4,7 @@ import { FaHeartbeat, FaHandsHelping, FaTint } from 'react-icons/fa';
 const Featured = () => {
   return (
     <section className="py-16 bg-white px-4">
-      <div className="max-w-6xl mx-auto text-center">
+      <div className="max-w-[1600px] w-11/12 mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-red-700 mb-10">
           Why Donate Blood?
         </h2>

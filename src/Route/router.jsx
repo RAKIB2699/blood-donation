@@ -25,6 +25,7 @@ import BlogDetails from "../shared/BlogDetails/BlogDetails";
 import CommonRoute from "../Provider/CommonRoute";
 import AdminRoute from "../Provider/adminRoute";
 import FundingPage from "../founding/FoundingPage";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayOut,
+    errorElement: <ErrorPage></ErrorPage>,
     children:[
         {
          index:true,
@@ -108,7 +110,7 @@ const router = createBrowserRouter([
       },
       {
         path: `edit-donation-request/:id`,
-        loader : ({params})=>fetch(`https://blood-donation-server-olive.vercel.app/donation-req/${params.id}`),
+        loader : ({params})=>fetch(`http://localhost:3000/donation-req/${params.id}`),
         element: <PrivateRoute><EditRequest/></PrivateRoute>
       },
       {

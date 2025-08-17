@@ -1,2 +1,21 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+.slick-dots {
+  display: flex !important;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+
+.slick-dots li button:before {
+  font-size: 12px !important;
+  color: #d1d5db !important; /* gray-300 */
+  opacity: 1 !important;
+}
+
+
+.slick-dots li.slick-active button:before {
+  color: #ef4444 !important; /* Tailwind red-500 */
+}

@@ -8,7 +8,7 @@ const BlogDetails = () => {
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://blood-donation-server-olive.vercel.app/blog-post/${id}`)
+    axios.get(`http://localhost:3000/blog-post/${id}`)
       .then(res => setBlog(res.data))
       .catch(err => console.error(err));
   }, [id]);

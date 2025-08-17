@@ -124,7 +124,7 @@ const Register = () => {
         };
       
 
-        axios.post('https://blood-donation-server-olive.vercel.app/blood', registrationData)
+        axios.post('http://localhost:3000/blood', registrationData)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
 
@@ -239,7 +239,7 @@ const Register = () => {
                     Already have an account? <span className="text-blue-600 underline cursor-pointer"><Link to='/login'>Login</Link></span>
                 </p>
 
-                <button type="submit" className="btn btn-primary w-full">
+                <button type="submit" className="btn bg-red-500 text-white w-full">
                     Register
                 </button>
                 {

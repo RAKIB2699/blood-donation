@@ -10,8 +10,8 @@ The platform enables **donors**, **volunteers**, and **admins** to manage blood 
 - **Client:** [https://blood-donation-85325.web.app](https://blood-donation-85325.web.app)  
  
 - **Admin Login:**
-  - **Username (Email):** `admin@admin.com`
-  - **Password:** `Admin@123`
+  - **Username (Email):** `a@a.com`
+  - **Password:** `1234qQ`
 
 ---
 

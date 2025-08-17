@@ -25,7 +25,7 @@ const RequestDetails = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.patch(`https://blood-donation-server-olive.vercel.app/donation-requests/${id}`, { status : 'inprogress' ,donorName:name,donorEmail:email});
+                    const res = await axios.patch(`http://localhost:3000/donation-requests/${id}`, { status : 'inprogress' ,donorName:name,donorEmail:email});
                     if (res.data.modifiedCount > 0) {
                         Swal.fire('Success', `Done`, 'success');
                         
@@ -39,7 +39,7 @@ const RequestDetails = () => {
     useEffect(() => {
         const fetchRequest = async () => {
             try {
-                const res = await axios.get(`https://blood-donation-server-olive.vercel.app/donation-req/${id}`);
+                const res = await axios.get(`http://localhost:3000/donation-req/${id}`);
                 setRequest(res.data);
             } catch (error) {
                 console.error('Failed to fetch request:', error);

@@ -12,7 +12,7 @@ export default function useRole() {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`https://blood-donation-server-olive.vercel.app/get-user-role?email=${user.email}`)
+        .get(`http://localhost:3000/get-user-role?email=${user.email}`)
         .then((res) => {
           setRole(res.data.role);
           setStatus(res.data.status);

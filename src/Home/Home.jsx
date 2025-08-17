@@ -2,25 +2,23 @@ import React from 'react';
 import Banner from './Banner';
 import Featured from './Featured';
 import ContactUs from './ContactUs';
+import OpinionSlider from './OpinionSlider';
+import VolunteersSection from './VolunteersSection';
 
 const Home = () => {
-    return (
+  return (
 
-        <div >
-           <div className='w-11/12 mx-auto'>
-             <Banner></Banner>
-           </div>
+    <div>
 
-            <div className='w-11/12 mx-auto'>
-                <Featured></Featured>
-            </div>
+      <Banner></Banner>
 
-           <div className='w-11/12 mx-auto'>
-             <ContactUs></ContactUs>
-           </div>
-
-        </div>
-    );
+      <Featured></Featured>
+     <VolunteersSection></VolunteersSection>
+      <OpinionSlider></OpinionSlider>
+      <ContactUs></ContactUs>
+      
+    </div>
+  );
 };
 
 export default Home;

@@ -5,8 +5,8 @@ const Banner = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-red-100 py-20 px-4 mt-4 text-center">
-      <div className="max-w-2xl mx-auto">
+    <div className="bg-red-100 max-w-[1600px] w-11/12 mx-auto py-20 px-4 mt-4 text-center">
+      <div className="">
         <h1 className="text-4xl font-bold text-red-700 mb-6">
           Donate Blood, Save Lives
         </h1>

@@ -17,7 +17,7 @@ const ContentManagement = () => {
     const { refetch, data: blogs = [], isLoading, isError } = useQuery({
         queryKey: ['blogs'],
         queryFn: async () => {
-            const res = await axios.get('https://blood-donation-server-olive.vercel.app/blogs');
+            const res = await axios.get('http://localhost:3000/blogs');
             return res.data;
         },
     });

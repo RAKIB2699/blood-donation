@@ -9,7 +9,7 @@ const Navbar = () => {
 
     const handleLogOut = () => {
         logOut()
-            .then(() => {window.location.reload()})
+            .then(() => { window.location.reload() })
             .catch((err) => console.error(err))
         Navigate('/')
 
@@ -17,18 +17,73 @@ const Navbar = () => {
 
     const navLinks = (
         <>
-            <li><NavLink to="/">Home</NavLink></li>
-            
-            <li><NavLink to="/request">Request Blood</NavLink></li>
-            <li><NavLink to="/founding-page">Founding</NavLink></li>
-            {user && <li><NavLink to="/dashboard">Dashboard</NavLink></li>}
-            {user && <li><NavLink to="/blog">Blog</NavLink></li>}
+            <li>
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        `px-3 py-1 rounded ${isActive ? "text-red-600" : ""} hover:text-red-600`
+                    }
+                >
+                    Home
+                </NavLink>
+            </li>
+
+            <li>
+                <NavLink
+                    to="/request"
+                    className={({ isActive }) =>
+                        `px-3 py-1 rounded ${isActive ? "text-red-600" : ""} hover:text-red-600`
+                    }
+                >
+                    Request Blood
+                </NavLink>
+            </li>
+
+            <li>
+                <NavLink
+                    to="/founding-page"
+                    className={({ isActive }) =>
+                        `px-3 py-1 rounded ${isActive ? "text-red-600" : ""} hover:text-red-600`
+                    }
+                >
+                    Founding
+                </NavLink>
+            </li>
+
+            {user && (
+                <li>
+                    <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) =>
+                            `px-3 py-1 rounded ${isActive ? "text-red-600" : ""} hover:text-red-600`
+                        }
+                    >
+                        Dashboard
+                    </NavLink>
+                </li>
+            )}
+
+            {user && (
+                <li>
+                    <NavLink
+                        to="/blog"
+                        className={({ isActive }) =>
+                            `px-3 py-1 rounded ${isActive ? "text-red-600" : ""} hover:text-red-600`
+                        }
+                    >
+                        Blog
+                    </NavLink>
+                </li>
+            )}
         </>
+
+
+
     );
 
     return (
-        <div className="bg-white w-11/12 mx-auto shadow-md sticky top-0 z-50">
-            <div className="navbar container mx-auto">
+        <div className=" bg-white shadow-md sticky top-0 z-50">
+            <div className="navbar max-w-[1600px] w-11/12 mx-auto">
                 <div className="flex-1">
                     <Link to="/" className="flex items-center gap-2 text-red-600 font-bold text-xl">
                         <FaHeart /> BloodCare
@@ -55,9 +110,9 @@ const Navbar = () => {
                         <ul className="menu menu-horizontal px-1 gap-2">
                             {navLinks}
                             {!user ? (
-                                <li><NavLink className='btn' to="/login">Login</NavLink></li>
+                                <li><NavLink className='btn bg-red-600 text-white' to="/login">Login</NavLink></li>
                             ) : (
-                                <li><button className='btn' onClick={handleLogOut}>Logout</button></li>
+                                <li><button className='btn bg-red-600 text-white' onClick={handleLogOut}>Logout</button></li>
                             )}
                         </ul>
                     </div>

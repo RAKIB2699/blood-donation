@@ -29,7 +29,7 @@ const AddBlog = () => {
         createdAt: new Date(),
       };
 
-      await axios.post('https://blood-donation-server-olive.vercel.app/blogs', blogData);
+      await axios.post('http://localhost:3000/blogs', blogData);
 
       Swal.fire({
         icon: 'success',

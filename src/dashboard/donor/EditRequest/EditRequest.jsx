@@ -102,7 +102,7 @@ const EditRequest = () => {
 
     try {
       await axios.patch(
-        `https://blood-donation-server-olive.vercel.app/edit-donation-request/${id}`,
+        `http://localhost:3000/edit-donation-request/${id}`,
         requestData
       );
       Swal.fire('Success!', 'Donation updated successfully', 'success');

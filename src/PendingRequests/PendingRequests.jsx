@@ -8,7 +8,7 @@ const PendingRequests = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch("https://blood-donation-server-olive.vercel.app/all-pending-donation")
+    fetch("http://localhost:3000/all-pending-donation")
       .then((res) => res.json())
       .then((data) => setRequests(data));
   }, []);
