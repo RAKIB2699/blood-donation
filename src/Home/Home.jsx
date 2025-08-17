@@ -6,6 +6,7 @@ import OpinionSlider from './OpinionSlider';
 import VolunteersSection from './VolunteersSection';
 import StatsCards from './StatsCards';
 import AboutUs from './AboutUs';
+import HowToDonate from './HowToDonate';
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <Featured></Featured>
      <VolunteersSection></VolunteersSection>
       <OpinionSlider></OpinionSlider>
+      <HowToDonate></HowToDonate>
       <StatsCards></StatsCards>
       <AboutUs></AboutUs>
       <ContactUs></ContactUs>
