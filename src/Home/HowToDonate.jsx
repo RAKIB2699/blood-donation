@@ -30,7 +30,7 @@ const HowToDonate = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="bg-gray-100 py-20">
+        <section className="bg-gray-100 py-16">
             <div className="max-w-[1600px] w-11/12 mx-auto text-center mb-12">
                 <h2 className="text-4xl font-bold text-red-600 mb-4">
                     How You Can Donate
@@ -54,7 +54,7 @@ const HowToDonate = () => {
                 ))}
 
             </div>
-            <div className="flex justify-center items-center mt-4">
+            <div className="flex justify-center items-center mt-7">
                 <button
                     onClick={() => navigate("/register")}
                     className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
