@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 import { FaHeart } from 'react-icons/fa';
 
+
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
     const Navigate = useNavigate();
@@ -97,8 +98,10 @@ const Navbar = () => {
                                     strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </label>
+                        
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                             {navLinks}
+                            
                             {!user ? (
                                 <li><NavLink className='btn' to="/login">Login</NavLink></li>
                             ) : (
@@ -106,6 +109,7 @@ const Navbar = () => {
                             )}
                         </ul>
                     </div>
+                    
                     <div className="hidden lg:flex">
                         <ul className="menu menu-horizontal px-1 gap-2">
                             {navLinks}

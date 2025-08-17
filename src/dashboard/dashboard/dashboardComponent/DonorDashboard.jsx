@@ -1,19 +1,17 @@
-import React from 'react';
-import { useContext, useEffect, useState } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
-
 const DonorDashboard = () => {
-    const { user } = useContext(AuthContext);
+    const { user, dbUser } = useContext(AuthContext); 
     const [donationRequests, setDonationRequests] = useState([]);
-    const navigate = useNavigate()
-    // console.log(user);
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (user?.email) {
-            axios.get(`http://localhost:3000/donation-requests?email=${user.email}`)
+            axios
+                .get(`http://localhost:3000/donation-requests?email=${user.email}`)
                 .then(res => {
                     const sorted = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                     setDonationRequests(sorted.slice(0, 3)); // only recent 3
@@ -25,7 +23,7 @@ const DonorDashboard = () => {
     return (
         <div className="p-4 sm:p-6">
             <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center sm:text-left">
-                Welcome, {user?.displayName}!
+                Welcome, {dbUser?.name || user?.displayName || "Donor"}!
             </h2>
 
             {donationRequests.length > 0 && (
@@ -59,14 +57,15 @@ const DonorDashboard = () => {
                                         <td className="px-4 py-2">{req.donationTime}</td>
                                         <td className="px-4 py-2">
                                             <span
-                                                className={`px-2 py-1 text-xs sm:text-sm rounded-full text-white ${req.status === "pending"
+                                                className={`px-2 py-1 text-xs sm:text-sm rounded-full text-white ${
+                                                    req.status === "pending"
                                                         ? "bg-yellow-500"
                                                         : req.status === "inprogress"
-                                                            ? "bg-blue-500"
-                                                            : req.status === "done"
-                                                                ? "bg-green-600"
-                                                                : "bg-red-600"
-                                                    }`}
+                                                        ? "bg-blue-500"
+                                                        : req.status === "done"
+                                                        ? "bg-green-600"
+                                                        : "bg-red-600"
+                                                }`}
                                             >
                                                 {req.status}
                                             </span>
@@ -76,13 +75,17 @@ const DonorDashboard = () => {
                             </tbody>
                         </table>
                     </div>
-                        <div className='text-center my-4'>
-                            <button onClick={()=>{navigate('/dashboard/my-donation-requests')}} className='btn bg-red-600 text-white'>View all</button>
-                        </div>
+                    <div className="text-center my-4">
+                        <button
+                            onClick={() => navigate('/dashboard/my-donation-requests')}
+                            className="btn bg-red-600 text-white"
+                        >
+                            View all
+                        </button>
+                    </div>
                 </>
             )}
         </div>
-
     );
 };
 

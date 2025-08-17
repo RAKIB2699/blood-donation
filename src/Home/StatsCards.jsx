@@ -25,7 +25,11 @@ const stats = [
 const StatsCards = () => {
   return (
     <div className="bg-gray-100 py-16 mb-4">
+       
+            <p className="text-3xl font-bold mb-4 text-red-500 text-center">Users</p>
+      
       <div className="max-w-[1600px] w-11/12 mx-auto flex flex-wrap justify-center gap-8">
+     
         {stats.map((stat) => (
           <div
             key={stat.id}

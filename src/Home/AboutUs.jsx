@@ -5,7 +5,7 @@ const AboutUs = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="bg-white max-w-[1600px] py-20">
+    <section className=" max-w-[1600px] py-20">
       <div className=" w-11/12 mx-auto flex flex-col md:flex-row items-center gap-10">
         <div className="md:w-1/2 w-full">
           <img

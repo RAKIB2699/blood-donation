@@ -7,18 +7,21 @@ import VolunteersSection from './VolunteersSection';
 import StatsCards from './StatsCards';
 import AboutUs from './AboutUs';
 import HowToDonate from './HowToDonate';
+import Gallery from './Gallery';
+
 
 const Home = () => {
   return (
 
     <div>
-
+       
       <Banner></Banner>
 
       <Featured></Featured>
      <VolunteersSection></VolunteersSection>
       <OpinionSlider></OpinionSlider>
       <HowToDonate></HowToDonate>
+      <Gallery></Gallery>
       <StatsCards></StatsCards>
       <AboutUs></AboutUs>
       <ContactUs></ContactUs>
