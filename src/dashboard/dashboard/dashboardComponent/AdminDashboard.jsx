@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaUser, FaDonate, FaHandHoldingHeart } from 'react-icons/fa';
 import axios from 'axios';
 import { AuthContext } from '../../../Provider/AuthProvider';
+import DashboardOverview from '../../DashboardOverview/DashboardOverview';
 
 const AdminDashboard = () => {
     const { user } = useContext(AuthContext);
@@ -64,7 +65,9 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
+            <DashboardOverview/>
         </div>
+        
     );
 };
 
